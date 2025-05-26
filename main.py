@@ -5,7 +5,7 @@ import cv2 as cv
 import os
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
-import datareader
+customtkinter.set_default_color_theme("site.json")
 
 class CalTrackApp:
     def __init__(self, root):
@@ -18,14 +18,13 @@ class CalTrackApp:
         self.display_bool = False
         self.total = 0
         self.meterlevel = 0
-        self.dataset = datareader.getdata()
         self.my_font = customtkinter.CTkFont(family="Corbel", size=25)
         self.bold_font = customtkinter.CTkFont(family="Corbel", size=35, weight="bold")
         self.info_font = customtkinter.CTkFont(family="Times New Roman", size=25, slant="italic")
         self.setup_ui()
 
     def setup_ui(self):
-        self.root.title("CalTrack")
+        self.root.title("LeCalTrack")
         self.root.geometry("1200x800")
         # Navigation bar
         self.navbar = customtkinter.CTkFrame(master=self.root, width=1300, height=100)
@@ -36,3 +35,16 @@ class CalTrackApp:
         self.home_button.place(relx=0.59, rely=0.25)
         self.display_button.place(relx=0.8, rely=0.25)
         self.calc_button.place(relx=0.695, rely=0.25)
+        # Tabs
+        self.home_tab = customtkinter.CTkTabview(master=self.root, width=1200, height=800, fg_color="transparent")
+        self.display_tab = customtkinter.CTkTabview(master=self.root, width=1200, height=800, fg_color="transparent")
+        self.calculate_tab = customtkinter.CTkTabview(master=self.root, width=1200, height=800, fg_color="transparent")
+        self.home_tab.place(relx=0.5, rely=0.52, anchor=CENTER)
+        # Info button and tabview
+        self.info_button = customtkinter.CTkButton(self.root, width=30, height=40, corner_radius=100, text="i", font=self.info_font, border_spacing=0, command=self.showinfo)
+        self.tabview = customtkinter.CTkTabview(master=self.root, width=400, height=180, fg_color=("#D4C9A8", "#2d4a6e"), border_width=0)
+        self.info_button.place(relx=0.95, rely=0.95, anchor=CENTER)
+        # Light switch
+        self.switch_var = customtkinter.StringVar(value="on")
+        self.dark_switch = customtkinter.CTkSwitch(master=self.root, switch_width=50, switch_height=30, text="Dark", text_color=("#635323", "#8ea3bf"), font=("Corbel", 25), command=self.switch_event, variable=self.switch_var, onvalue="on", offvalue="off")
+        self.dark_switch.place(relx=0.1, rely=0.95, anchor=CENTER)
