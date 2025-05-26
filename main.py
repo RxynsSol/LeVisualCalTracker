@@ -164,3 +164,26 @@ class CalTrackApp:
 
         self.bmr_result_label.place(relx=0.5, rely=0.8, anchor=CENTER)
         self.bmi_result_label.place(relx=0.5, rely=0.87, anchor=CENTER)
+
+
+        # TO DO: BMI chart 
+        
+
+        # Calorie goal selection
+        self.goal_options = [
+            "Maintain",
+            "Mild weight loss (0.25 kg/week)",
+            "Weight loss (0.5 kg/week)",
+            "Extreme weight loss (1 kg/week)",
+            "Mild weight gain (0.25 kg/week)",
+            "Weight gain (0.5 kg/week)",
+            "Fast weight gain (1 kg/week)"
+        ]
+        self.goal_dropdown = customtkinter.CTkOptionMenu(self.calculate_tab, values=self.goal_options, command=self.set_goal, width=320, font=self.my_font)
+        self.goal_dropdown.place(relx=0.5, rely=0.87, anchor="center")
+        self.selected_goal = "Maintain"
+        self.calorie_goals = []
+        self.calorie_goal_label = customtkinter.CTkLabel(self.calculate_tab, text="", font=self.my_font, text_color=("#796C47", "#8ea3bf"))
+        self.calorie_goal_label.place(relx=0.5, rely=0.93, anchor="center")
+
+        
