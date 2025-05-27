@@ -165,8 +165,6 @@ class CalTrackApp:
         self.bmr_result_label.place(relx=0.5, rely=0.8, anchor=CENTER)
         self.bmi_result_label.place(relx=0.5, rely=0.87, anchor=CENTER)
 
-
-        # TO DO: BMI chart 
         
 
         # Calorie goal selection
@@ -186,4 +184,26 @@ class CalTrackApp:
         self.calorie_goal_label = customtkinter.CTkLabel(self.calculate_tab, text="", font=self.my_font, text_color=("#796C47", "#8ea3bf"))
         self.calorie_goal_label.place(relx=0.5, rely=0.93, anchor="center")
 
-        
+        # TO DO: BMI chart 
+
+        # Home tab UI
+        try:
+            self.home_title_image = customtkinter.CTkImage(light_image=Image.open("Images/title1.png"), dark_image=Image.open("Images/title2.png"), size=(850, 250))
+            self.home_image_label = customtkinter.CTkLabel(self.home_tab, image=self.home_title_image, text="")
+            self.home_image_label.place(relx=0.5, rely=0.31, anchor=CENTER)
+        except Exception:
+            pass
+        # Upload and Capture buttons
+        self.upload_button = customtkinter.CTkButton(self.home_tab, width=180, height=60, corner_radius=100, text="Upload", text_color=("#635323", "#8ea3bf"), font=self.my_font, command=self.upload_image, fg_color=("#D4C9A8", "#436791"), hover_color=("#c9bb91", "#36567d"))
+        self.capture_button = customtkinter.CTkButton(self.home_tab, width=180, height=60, corner_radius=100, text="Capture", text_color=("#635323", "#8ea3bf"), font=self.my_font, command=self.capture_image, fg_color=("#D4C9A8", "#436791"), hover_color=("#c9bb91", "#36567d"))
+        self.upload_button.place(relx=0.5, rely=0.55, anchor=CENTER)
+        self.capture_button.place(relx=0.5, rely=0.65, anchor=CENTER)
+
+        # Display tab UI
+        try:
+            self.display_banner_image = customtkinter.CTkImage(light_image=Image.open("Images/track1.png"), dark_image=Image.open("Images/track2.png"), size=(550, 290))
+            self.display_image_label = customtkinter.CTkLabel(self.display_tab, image=self.display_banner_image, text="")
+            self.display_image_label.place(relx=0.6, rely=0.23, anchor=CENTER)
+        except Exception:
+            pass
+       
