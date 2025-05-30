@@ -80,3 +80,21 @@
     "scrollbar_button_color": ["#8E9F85", "#A67C52"],
     "scrollbar_button_hover_color": ["#7b8f71", "#A67C52"]
   },
+  "CTkFont": {
+    "Windows": {
+      "family": "Corbel",
+      "size": 13,
+      "weight": "normal"
+    },
+    "macOS": {
+      "family": "SF Display",
+      "size": 13,
+      "weight": "normal"
+    },
+    "Linux": {
+      "family": "Roboto",
+      "size": 13,
+      "weight": "normal"
+    }
+  }
+}
