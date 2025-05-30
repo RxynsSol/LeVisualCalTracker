@@ -12,4 +12,18 @@
     "top_fg_color": ["#8E9F85", "#3B2F1B"],
     "border_color": ["#527C5A", "#7d91ab"]
   },
-
+  "CTkButton": {
+    "corner_radius": 8,
+    "border_width": 0,
+    "fg_color": ["#7B8F71", "#6E4C1B"],
+    "hover_color": ["#6E7F5B", "#A67C52"],
+    "border_color": ["#527C5A", "#7d91ab"],
+    "text_color": ["#35422e", "#F2E8D4"],
+    "text_color_disabled": ["gray78", "gray68"]
+  },
+  "CTkLabel": {
+    "corner_radius": 0,
+    "fg_color": "transparent",
+    "text_color": ["#35422e", "#F2E8D4"]
+  },
+ 
