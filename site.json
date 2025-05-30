@@ -26,4 +26,21 @@
     "fg_color": "transparent",
     "text_color": ["#35422e", "#F2E8D4"]
   },
- 
+  "CTkEntry": {
+    "corner_radius": 8,
+    "border_width": 2,
+    "fg_color": ["#D4C9A8", "#4A3B1B"],
+    "border_color": ["#baae88", "#A67C52"],
+    "text_color": ["#796C47", "#F2E8D4"],
+    "placeholder_text_color": ["#baae88", "#A67C52"]
+  },
+  "CTkCheckBox": {
+    "corner_radius": 8,
+    "border_width": 3,
+    "fg_color": ["#2CC985", "#2FA572"],
+    "border_color": ["#3E454A", "#949A9F"],
+    "hover_color": ["#0C955A", "#A67C52"],
+    "checkmark_color": ["#DCE4EE", "#F2E8D4"],
+    "text_color": ["#35422e", "#F2E8D4"],
+    "text_color_disabled": ["gray60", "gray45"]
+  },
