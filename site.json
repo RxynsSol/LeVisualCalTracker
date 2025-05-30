@@ -44,3 +44,22 @@
     "text_color": ["#35422e", "#F2E8D4"],
     "text_color_disabled": ["gray60", "gray45"]
   },
+  "CTkSwitch": {
+    "corner_radius": 1000,
+    "border_width": 3,
+    "button_length": 0,
+    "fg_color": ["#D4C9A8", "#6E4C1B"],
+    "progress_color": ["#D4C9A8", "#A67C52"],
+    "button_color": ["#8E9F85", "#A67C52"],
+    "button_hover_color": ["#7b8f71", "#A67C52"],
+    "text_color": ["#35422e", "#F2E8D4"],
+    "text_color_disabled": ["#527C5A", "gray45"]
+  },
+  "CTkOptionMenu": {
+    "corner_radius": 8,
+    "fg_color": ["#D4C9A8", "#4A3B1B"],
+    "button_color": ["#bdb08c", "#A67C52"],
+    "button_hover_color": ["#a89b74", "#A67C52"],
+    "text_color": ["#796C47", "#F2E8D4"],
+    "text_color_disabled": ["gray78", "gray68"]
+  },
