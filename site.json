@@ -1,0 +1,15 @@
+{
+  "CTk": {
+    "fg_color": ["#F2E8D4", "#2C2A1E"]
+  },
+  "CTkToplevel": {
+    "fg_color": ["#F2E8D4", "#2C2A1E"]
+  },
+  "CTkFrame": {
+    "corner_radius": 8,
+    "border_width": 0,
+    "fg_color": ["#8E9F85", "#3B2F1B"],
+    "top_fg_color": ["#8E9F85", "#3B2F1B"],
+    "border_color": ["#527C5A", "#7d91ab"]
+  },
+
