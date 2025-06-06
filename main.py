@@ -505,7 +505,24 @@ class CalorieTrackerApp:
         )
         bmi_result.pack(pady=5)
 
-    
+    def adjust_calories_for_goal(self, bmr):
+        """Adjust BMR based on selected weight goal"""
+        if "loss" in self.goal:
+            if "Mild" in self.goal:
+                return bmr - 250  # 0.25 kg/week ≈ 250 kcal/day deficit
+            elif "Extreme" in self.goal:
+                return bmr - 1000  # 1 kg/week ≈ 1000 kcal/day deficit
+            else:
+                return bmr - 500  # 0.5 kg/week ≈ 500 kcal/day deficit
+        elif "gain" in self.goal:
+            if "Mild" in self.goal:
+                return bmr + 250  # 0.25 kg/week ≈ 250 kcal/day surplus
+            elif "Fast" in self.goal:
+                return bmr + 1000  # 1 kg/week ≈ 1000 kcal/day surplus
+            else:
+                return bmr + 500  # 0.5 kg/week ≈ 500 kcal/day surplus
+        else:
+            return bmr  # Maintain weight
 
     def calculate_bmr(self):
         """Calculate BMR based on user inputs"""
