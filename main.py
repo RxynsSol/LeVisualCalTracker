@@ -448,6 +448,64 @@ class CalorieTrackerApp:
             
         return self.bmi, self.bmi_category
 
+    def draw_bmi_chart(self):
+        """Draw BMI chart visualization"""
+        # Clear previous chart
+        for widget in self.bmi_chart_frame.winfo_children():
+            widget.destroy()
+        
+        # Create chart labels
+        chart_label = customtkinter.CTkLabel(
+            self.bmi_chart_frame, text="BMI Categories:",
+            font=self.my_font, text_color=("#796C47","#8ea3bf")
+        )
+        chart_label.pack()
+        
+        # Create chart segments
+        chart_canvas = tk.Canvas(
+            self.bmi_chart_frame, height=30, bg="white",
+            highlightthickness=0, relief='ridge'
+        )
+        chart_canvas.pack(fill='x', padx=10, pady=5)
+        
+        # Define BMI ranges and colors
+        bmi_ranges = [
+            (0, 18.5, "#63a1ff"),    # Underweight (blue)
+            (18.5, 25, "#63ff7d"),   # Normal (green)
+            (25, 30, "#ffde63"),     # Overweight (yellow)
+            (30, 40, "#ff6363")      # Obese (red)
+        ]
+        
+        # Draw BMI ranges
+        total_width = 500
+        for i, (start, end, color) in enumerate(bmi_ranges):
+            x0 = (start / 40) * total_width
+            x1 = (end / 40) * total_width
+            chart_canvas.create_rectangle(x0, 0, x1, 30, fill=color, outline="")
+            
+            # Add label in the middle of each segment
+            mid = (x0 + x1) / 2
+            if i < len(bmi_ranges) - 1:
+                chart_canvas.create_text(mid, 15, text=f"{start}-{end}", font=("Arial", 8))
+            else:
+                chart_canvas.create_text(mid, 15, text=f"{start}+", font=("Arial", 8))
+        
+        # Add indicator for user's BMI
+        user_bmi_x = (min(self.bmi, 40) / 40) * total_width
+        chart_canvas.create_line(user_bmi_x, 0, user_bmi_x, 30, fill="black", width=2)
+        chart_canvas.create_text(user_bmi_x, 40, text=f"Your BMI: {self.bmi:.1f} ({self.bmi_category})", 
+                                font=("Arial", 10, "bold"))
+        
+        # Add BMI result label
+        bmi_result = customtkinter.CTkLabel(
+            self.bmi_chart_frame, 
+            text=f"BMI: {self.bmi:.1f} - {self.bmi_category}",
+            font=self.my_font,
+            text_color=("#796C47","#8ea3bf")
+        )
+        bmi_result.pack(pady=5)
+
+    
 
     def calculate_bmr(self):
         """Calculate BMR based on user inputs"""
