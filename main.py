@@ -28,6 +28,9 @@ class CalorieTrackerApp:
         self.total = 0
         self.meterlevel = 0
         self.dataset = dataReader.getImageData()
+        self.bmi = 0
+        self.bmi_category = ""
+        self.goal = "Maintain current weight"
         print(self.dataset)
         
         # Fonts
@@ -82,17 +85,32 @@ class CalorieTrackerApp:
         
         self.calc_button = customtkinter.CTkButton(
             self.navbar, corner_radius=0, height=100, text="Calculate",
-            font=self.my_font, fg_color="transparent", border_width=2,
-            border_color=("#65735e", "#687d96"), anchor=tk.CENTER,
+            font=self.my_font, fg_color="transparent", anchor=tk.CENTER,
             command=self.show_calculate
         )
         
-        self.home_button.place(relx=0.59, rely=0.25)
-        self.display_button.place(relx=0.8, rely=0.25)
-        self.calc_button.place(relx=0.695, rely=0.25)
+        self.home_button.place(relx=0.09, rely=0.25)
+        self.display_button.place(relx=0.3, rely=0.25)
+        self.calc_button.place(relx=0.195, rely=0.25)
 
     def create_home_tab(self):
-        """Create home tab widgets"""
+
+        self.title_label = customtkinter.CTkLabel(
+        self.home, 
+        text="LeCalTrack - Your Calorie Companion",
+        font=self.bold_font,
+        text_color=("#796C47","#8ea3bf")
+        )
+        self.title_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+        
+        self.subtitle_label = customtkinter.CTkLabel(
+            self.home, 
+            text="Track your calories and maintain a healthy lifestyle",
+            font=self.my_font,
+            text_color=("#796C47","#8ea3bf")
+        )
+        self.subtitle_label.place(relx=0.5, rely=0.27, anchor=tk.CENTER)
+
         self.upload_button = customtkinter.CTkButton(
             self.home, width=180, height=60, corner_radius=100, text="Upload",
             text_color=("#635323","#8ea3bf"), font=self.my_font,
@@ -111,6 +129,14 @@ class CalorieTrackerApp:
         self.photo_button.place(relx=0.5, rely=0.65, anchor=tk.CENTER)
 
     def create_calculate_tab(self):
+
+        self.calc_title = customtkinter.CTkLabel(
+            self.calculate,
+            text="Calorie Calculator",
+            font=self.bold_font,
+            text_color=("#796C47","#8ea3bf")
+        )
+        self.calc_title.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
         """Create calculate tab widgets"""
         # Labels
         self.labels = customtkinter.CTkLabel(
@@ -150,6 +176,23 @@ class CalorieTrackerApp:
             command=self.get_activity, height=45, width=240, font=self.my_font
         )
         
+        # Goal selection dropdown
+        self.goal_options = [
+            "Maintain current weight",
+            "Mild weight loss (0.25 kg/week)",
+            "Weight loss (0.5 kg/week)",
+            "Extreme weight loss (1 kg/week)",
+            "Mild weight gain (0.25 kg/week)",
+            "Weight gain (0.5 kg/week)",
+            "Fast weight gain (1 kg/week)"
+        ]
+        
+        self.goal_menu = customtkinter.CTkOptionMenu(
+            self.calculate, values=self.goal_options, command=self.get_goal,
+            height=45, width=240, font=self.my_font
+        )
+        self.goal_menu.place(relx=0.77, rely=0.61, anchor=tk.CENTER)
+        
         # Calculate button
         self.calc_button = customtkinter.CTkButton(
             self.calculate, width=240, height=60, corner_radius=100, text="Calculate",
@@ -157,6 +200,13 @@ class CalorieTrackerApp:
             command=self.calculate_bmr, fg_color=("#a8bd9d","#436791"),
             hover_color=("#92ab85","#36567d")
         )
+        self.calc_button.place(relx=0.77, rely=0.70, anchor=tk.CENTER)
+        
+        # BMI Chart Frame
+        self.bmi_chart_frame = customtkinter.CTkFrame(
+            self.calculate, width=600, height=100, fg_color="transparent"
+        )
+        self.bmi_chart_frame.place(relx=0.5, rely=0.85, anchor=tk.CENTER)
         
         # Layout
         self.labels.place(relx=0.17, rely=0.50, anchor=tk.CENTER)
@@ -166,7 +216,6 @@ class CalorieTrackerApp:
         self.weight.place(relx=0.37, rely=0.60, anchor=tk.CENTER)
         self.height.place(relx=0.77, rely=0.40, anchor=tk.CENTER)
         self.activity.place(relx=0.77, rely=0.50, anchor=tk.CENTER)
-        self.calc_button.place(relx=0.77, rely=0.61, anchor=tk.CENTER)
 
     def create_display_tab(self):
         """Create display tab widgets"""
@@ -256,6 +305,11 @@ class CalorieTrackerApp:
         """Handle activity level selection"""
         self.active = self.activity.get()
         print("optionmenu dropdown clicked:", self.active)
+        
+    def get_goal(self, choice):
+        """Handle goal selection"""
+        self.goal = choice
+        print("Goal selected:", self.goal)
 
     def update_info(self):
         """Update info popup content"""
@@ -381,7 +435,7 @@ class CalorieTrackerApp:
     def calculate_bmr(self):
         """Calculate BMR based on user inputs"""
         try:
-            heavy = int(self.weight.get())
+            heavy = float(self.weight.get())
         except ValueError:
             heavy = 60
             
@@ -395,6 +449,10 @@ class CalorieTrackerApp:
         except ValueError:
             tall = 170
 
+        # Calculate BMI
+        self.calculate_bmi(heavy, tall)
+        self.draw_bmi_chart()
+
         if self.sex == "Female":
             self.BMR = 447.6 + (9.25 * heavy) + (3.10 * tall) - (4.33 * old)
         else:
@@ -407,15 +465,33 @@ class CalorieTrackerApp:
         elif self.active == "Active":
             self.BMR *= 1.55
             
+        # Adjust for goal
+        adjusted_bmr = self.adjust_calories_for_goal(self.BMR)
         self.BMR = int(self.BMR)
-        textbmr = f"You are recommended to consume {round(self.BMR,0)} calories daily."
+        adjusted_bmr = int(adjusted_bmr)
+        
+        # Display results
+        textbmr = f"Maintenance calories: {self.BMR} kcal/day"
+        textgoal = f"Goal calories: {adjusted_bmr} kcal/day"
+        
+        # Clear previous results
+        for widget in self.calculate.winfo_children():
+            if isinstance(widget, customtkinter.CTkLabel) and widget.winfo_y() > 400:
+                widget.destroy()
         
         displaybmr = customtkinter.CTkLabel(
             self.calculate, text=textbmr,
-            text_color=("#796C47","#8ea3bf"), font=self.bold_font,
+            text_color=("#796C47","#8ea3bf"), font=self.my_font,
             justify='left'
         )
-        displaybmr.place(relx=0.5, rely=0.75, anchor=tk.CENTER)
+        displaybmr.place(relx=0.37, rely=0.7, anchor=tk.CENTER)
+        
+        displaygoal = customtkinter.CTkLabel(
+            self.calculate, text=textgoal,
+            text_color=("#796C47","#8ea3bf"), font=self.my_font,
+            justify='left'
+        )
+        displaygoal.place(relx=0.37, rely=0.75, anchor=tk.CENTER)
 
 if __name__ == "__main__":
     root = customtkinter.CTk()
