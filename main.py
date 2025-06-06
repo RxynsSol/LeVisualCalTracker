@@ -432,6 +432,23 @@ class CalorieTrackerApp:
         print(f"Analyzing image: {image_path}")
         # Add your image analysis logic here
 
+    def calculate_bmi(self, weight, height_cm):
+        """Calculate BMI and return category"""
+        height_m = height_cm / 100
+        self.bmi = weight / (height_m ** 2)
+        
+        if self.bmi < 18.5:
+            self.bmi_category = "Underweight"
+        elif 18.5 <= self.bmi < 25:
+            self.bmi_category = "Normal weight"
+        elif 25 <= self.bmi < 30:
+            self.bmi_category = "Overweight"
+        else:
+            self.bmi_category = "Obese"
+            
+        return self.bmi, self.bmi_category
+
+
     def calculate_bmr(self):
         """Calculate BMR based on user inputs"""
         try:
